@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-size: 20px;
+            background: linear-gradient(to bottom, #f4ff90, #9dfffa) no-repeat fixed;
+        }
+        .mula {
+            color: rgb(255, 153, 0);
+            background-color: rgb(46, 0, 48);
+        }
+        .akhir {
+            color: cyan;
+            background-color: rgb(46, 0, 48);
+        }
+        .sama {
+            color: rgb(0, 255, 21);
+            background-color: rgb(46, 0, 48);
+        }
+        .jawapan {
+            color: rgb(255, 0, 191);
+            background-color: rgb(255, 123, 0);
+        }
+        .tengah {
+            color: rgb(0, 255, 0);
+            background-color: black;
+        }
+        .title {
+            font-size: larger;
+            color: aqua;
+            text-shadow: 0 0 2px #000000;
+        }
+        .pengiraan {
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        table, tr, td {
+            border-collapse: collapse;
+            border-style: solid;
+            font-size: 30px;
+            text-align: center;
+        }
+        td {
+            width: 40px;
+        }
+        ::placeholder {
+            font-style: italic;
+        }
+    </style>
+    <script>
+        function bubbleSort(arr) {
+            // Bubble Sort untuk menyusun tatasusunan
+            let len = arr.length;
+            for (let i = 0; i < len; i++) {
+                for (let j = 0; j < len - 1 - i; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        // Tukar kedudukan
+                        let temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+            return arr;
+        }
+
+        function binarySearch(arr, noCarian) {
+            // Carian binary untuk mencari nilai
+            let indeksAwal = 0, indeksAkhir = arr.length - 1, indeksTengah, i = 0;
+            while (indeksAwal <= indeksAkhir) {
+                // Kira nilai tengah
+                indeksTengah = Math.floor((indeksAwal + indeksAkhir) / 2);
+                document.body.innerHTML += `<br><span class='title'>Kali ke-${i + 1}</span><br>`;
+                document.body.innerHTML += `<span class='pengiraan'>Indeks Tengah = [${indeksAwal} + ${indeksAkhir}] ÷ 2 = ${indeksTengah} (Math.floor)</span>`;
+                generateTable(arr, indeksAwal, indeksAkhir, indeksTengah, noCarian);
+                document.body.innerHTML += `<span class='pengiraan'>Nomber tengah: Indeks: ${indeksTengah}, Nilai: ${arr[indeksTengah]}<br></span>`;
+                 if (arr[indeksTengah] < noCarian) {
+                    document.body.innerHTML += `<span class='pengiraan'>Nomber tengah no[${indeksTengah}] tidak sama dengan nilai carian (${noCarian})<br></span>`;
+                    document.body.innerHTML += `<span class='pengiraan'>Tengah (${indeksTengah}) < Carian (${noCarian})<br></span>`;
+                    document.body.innerHTML += `<span class='pengiraan'>Nilai awal akan ditukarkan kepada [Nilai tengah + 1] = ${indeksTengah} + 1 = ${indeksTengah + 1}<br></span>`;
+                    indeksAwal = indeksTengah + 1;
+                } else {
+                    document.body.innerHTML += `<span class='pengiraan'>Nomber tengah no[${indeksTengah}] tidak sama dengan nilai carian (${noCarian})<br></span>`;
+                    document.body.innerHTML += `<span class='pengiraan'>Tengah (${indeksTengah}) > Carian (${noCarian})<br></span>`;
+                    document.body.innerHTML += `<span class='pengiraan'>Nilai akhir akan ditukarkan kepada [Nilai tengah - 1] = ${indeksTengah} - 1 = ${indeksTengah - 1}<br></span>`;
+                    indeksAkhir = indeksTengah - 1;
+                } 
+                generateTable(arr, indeksAwal, indeksAkhir, indeksTengah, noCarian);
+                if (arr[indeksTengah] === noCarian) {
+                    document.body.innerHTML += `<br><br>Nombor dijumpa: ${arr[indeksTengah]}`;
+                    return indeksTengah;
+                } 
+                i++;
+            }
+            document.body.innerHTML += "<br><br>Nombor TIDAK dijumpa";
+            return -1;
+        }
+
+        function generateTable(arr, indeksAwal, indeksAkhir, indeksTengah, noCarian) {
+            // Memaparkan jadual dengan indeks dan nilai semasa
+            let table = "<table><tr>";
+            table += "<td><span class='pengiraan'>Indeks</span></td>";
+            for (let j = 0; j < arr.length; j++) {
+                table += `<td><span class='pengiraan'>${j}</span></td>`;
+            }
+            table += "</tr><tr>";
+            table += "<td><span class='pengiraan'>Nilai</span></td>";
+            for (let j = 0; j < arr.length; j++) {
+                table += "<td>";
+                if (arr[j] == arr[indeksTengah] && arr[indeksTengah] == noCarian) {
+                    table += `<span class='pengiraan jawapan'>${arr[j]}</span>`;
+                } else if (arr[j] == arr[indeksAkhir] && arr[j] == arr[indeksAwal]) {
+                    table += `<span class='pengiraan sama'>${arr[j]}</span>`;
+                } else if (arr[j] == arr[indeksAkhir]) {
+                    if (arr[indeksTengah] == noCarian)
+                        table += `<span class='pengiraan'>${arr[j]}</span>`;
+                    else
+                        table += `<span class='pengiraan akhir'>${arr[j]}</span>`;
+                } else if (arr[j] == arr[indeksAwal]) {
+                    table += `<span class='pengiraan mula'>${arr[j]}</span>`;
+                } else if (arr[j] == arr[indeksTengah]) {
+                    table += `<span class='pengiraan tengah'>${arr[j]}</span>`;
+                } else {
+                    table += `<span class='pengiraan'>${arr[j]}</span>`;
+                }
+                table += "</td>";
+            }
+            table += "</tr></table>";
+            document.body.innerHTML += table;
+        }
+
+        function cari() {
+            // Mendapatkan input dari pengguna
+            let inputArray = document.getElementById("inputArray").value.split(",").map(Number);
+            let noCarian = parseInt(document.getElementById("noCarian").value);
+            if (isNaN(noCarian) || inputArray.some(isNaN)) {
+                alert("Sila masukkan nombor yang sah.");
+                return;
+            }
+            document.body.innerHTML = ''; // Membersihkan hasil sebelumnya
+            let sortedArray = bubbleSort(inputArray);
+            // Menunjukkan tatasusunan yang telah disusun
+            let table = "Binary Search <table><tr>";
+            table += "<td><span class='pengiraan'>Indeks</span></td>";
+            for (let j = 0; j < sortedArray.length; j++) {
+                table += `<td><span class='pengiraan'>${j}</span></td>`;
+            }
+            table += "</tr><tr>";
+            table += "<td><span class='pengiraan'>Nilai</span></td>";
+            for (let j = 0; j < sortedArray.length; j++) {
+                table += `<td><span class='pengiraan'>${sortedArray[j]}</span></td>`;
+            }
+            table += "</tr></table>";
+            document.body.innerHTML += table;
+            document.body.innerHTML += `<br>No Carian: ${noCarian}<br>`;
+            
+            document.body.innerHTML += `Dark red background (Nilai Awal/Akhir), Dark green background (Nilai Tengah [May overlap with Nilai Awal, but will show dark green also]), Orange background (Overlapping of any-two-value)`;
+            // Melakukan carian binary
+            binarySearch(sortedArray, noCarian);
+        }
+    </script>
+</head>
+<body>
+    <h2>Masukkan tatasusunan dan nombor carian:</h2>
+    <label for="inputArray">Tatasusunan (pisahkan dengan koma):</label>
+    <input type="text" id="inputArray" name="inputArray" placeholder="2, 4, 6, 8, 10">
+    <br><br>
+    <label for="noCarian">Nombor Carian:</label>
+    <input type="number" id="noCarian" name="noCarian" placeholder="2">
+    <p style="font-style: italic; font-size: smaller;">
+        Dalam binary search, anda haruslah masukkan nilai tatasusunan secara menaik (tetapi di sini tak perlu, kami akan susun untuk anda)<br>
+        Jangan masukkan nilai yang pelik-pelik (kami tiada sediakan langkah untuk mengatasi ralat, perbuatan tersebut hanya akan menyebabkan ralat)<br>
+        Selepas guna satu kali, sila 'Refresh' halaman ini untuk masukkan nilai baru<br>
+        Semua kod halaman web ini boleh diambil tanpa kredit sebagai kajian [ataupun digunakan dalam pembelajaran, edit dan paparkan semula] (EXCEPT and NO commercial use)
+    </p>
+    <button onclick="cari()">Cari</button>
+</body>
+</html>
